@@ -89,7 +89,7 @@ app.get('/todos/:id', function(req, res) {
 	// }
 });
 
-app.post('/todos', function(req, res) {
+app.post('/todos', function (req, res) {
 	var body = _.pick(req.body, 'description', 'completed'); //does not allow for unwanted fields to be stored
 
 	db.todo.create(body).then(function(todo) {
@@ -187,9 +187,22 @@ app.put('/todos/:id', function(req, res) {
 
 });
 
+app.post('/users', function (req, res){
+	var body = _.pick(req.body, 'email', 'password');
+	db.user.create(body).then(function (user){
+		res.json(user.toJSON())
+	}, function(e){
+		res.status(400).json(e);
+	});
+});
+
 db.sequelize.sync().then(function() {
 	app.listen(PORT, function() {
 		console.log('listening on port 1337')
 	});
 
 });
+
+
+
+
